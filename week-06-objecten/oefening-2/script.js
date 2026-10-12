@@ -4,10 +4,19 @@ const people = [
   { name: 'Sara', age: 22, city: 'Utrecht' },
 ];
 
+const original = people
+  .map(({ name, city }) => `${name}: ${city}`)
+  .join(' | ');
 
-// 1. Toon in #origineel de originele lijst met alleen namen en steden.
-//    Gebruik destructuring in je .map().
-// 2. Maak met .map() en de spread operator een nieuwe array waarin
-//    de stad van elke persoon is gewijzigd naar 'Den Haag'.
-//    De originele people-array moet onveranderd blijven.
-// 3. Toon deze nieuwe lijst in #kopie, ook met destructuring.
+const copied = people
+  .map(({ name, age, city, ...rest }) => ({
+    ...rest,
+    name,
+    age,
+    city: 'Den Haag',
+  }))
+  .map(({ name, city }) => `${name}: ${city}`)
+  .join(' | ');
+
+document.getElementById('origineel').textContent = original;
+document.getElementById('kopie').textContent = copied;

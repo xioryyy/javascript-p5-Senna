@@ -4,14 +4,21 @@ const car = {
   year: 2008,
   mileage: 145000,
   description() {
-    // Vul in: geef een zin terug met this.name en this.brand via template literal
+    return `${this.brand} ${this.name} is gemaakt in ${this.year}.`;
   },
   isOld() {
-    // Vul in: geef true terug als het year voor 2010 is
+    return this.year < 2010;
   },
   drive(km) {
-    // Vul in: verhoog this.mileage met km en geef de nieuwe km-stand terug
+    this.mileage += km;
+    return this.mileage;
   },
 };
 
-// Toon de resultaten in de drie output-elementen
+const output1 = document.getElementById('output-1');
+const output2 = document.getElementById('output-2');
+const output3 = document.getElementById('output-3');
+
+output1.textContent = 'Beschrijving: ' + car.description();
+output2.textContent = 'Is oud? ' + car.isOld();
+output3.textContent = 'Nieuwe kilometerstand: ' + car.drive(2500) + ' km';
