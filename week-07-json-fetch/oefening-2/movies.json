@@ -1,1 +1,26 @@
-[]
+[
+  {
+    "title": "Titanic",
+    "director": "James Cameron",
+    "year": 1997,
+    "genre": "romance/drama "
+  },
+  {
+    "title": "The Lion King",
+    "director": "Roger Allers, Rob Minkoff",
+    "year": 1994,
+    "genre": "animation/adventure "
+  },
+  {
+    "title": "Harry Potter and the Philosopher's Stone",
+    "director": "Chris Columbus",
+    "year": 2001,
+    "genre": "fantasy/adventure "
+  },
+  {
+    "title": "The Conjuring",
+    "director": "James Wan",
+    "year": 2013,
+    "genre": "horror/thriller "
+  }
+]

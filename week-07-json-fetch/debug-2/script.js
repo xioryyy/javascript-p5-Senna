@@ -1,5 +1,5 @@
-// Fout gevonden: _______________
-// Oplossing: _______________
+// Fout gevonden: een komma na toetsenbord in de .json file 
+// Oplossing: weghalen van de komma na het laatste object in products.json.
 
 fetch('./products.json')
   .then(r => r.json())

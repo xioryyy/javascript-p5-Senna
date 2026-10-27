@@ -1,6 +1,8 @@
 fetch('./books.json')
   .then(response => response.json())
   .then(books => {
-    // Toon elk boek als een <li> in #books-list
+    document.querySelector('#books-list').innerHTML = books
+      .map(book => `<li>${book.title} — ${book.author} - ${book.year}</li>`)
+      .join('');
   })
   .catch(error => console.error('Fout:', error));
