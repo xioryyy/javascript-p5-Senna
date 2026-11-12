@@ -1,23 +1,37 @@
+const list = document.querySelector('#pokemon-list');
+const counter = document.querySelector('#counter');
+const searchBar = document.querySelector('#search-bar');
+
 let allPokemon = [];
 
-// De API geeft een object terug met een 'results' array
-// Elk item heeft een 'name' property
-// Gebruik console.log(data) om de structuur te bekijken
+function renderPokemon(pokemon) {
+  counter.textContent = `${pokemon.length} Pokémon`;
 
-// De afbeelding van een Pokémon staat op:
-// https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{id}.png
-// Sla het id op via de index bij het laden: { ...pokemon, id: index + 1 }
+  list.innerHTML = pokemon.map((item) => `
+    <article>
+      <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${item.id}.png" alt="${item.name}">
+      <p>${item.name}</p>
+    </article>
+  `).join('');
+}
 
 fetch('https://pokeapi.co/api/v2/pokemon?limit=151')
-  .then(response => response.json())
-  .then(data => {
-    console.log(data); // Bekijk de structuur
+  .then((response) => response.json())
+  .then((data) => {
+    allPokemon = data.results.map((pokemon, index) => ({
+      ...pokemon,
+      id: index + 1,
+    }));
 
-    // Sla data.results op in allPokemon, voeg het id toe via de index
-    // Toon alle Pokémon in #pokemon-list met naam en afbeelding
-    // Toon het aantal in #counter
+    renderPokemon(allPokemon);
   })
-  .catch(error => console.error('Fout:', error));
+  .catch((error) => console.error('Fout:', error));
 
-// Voeg een event listener toe aan #search-bar
-// Filter allPokemon op naam en herrender de lijst
+searchBar.addEventListener('input', (event) => {
+  const search = event.target.value.toLowerCase();
+  const filteredPokemon = allPokemon.filter((pokemon) =>
+    pokemon.name.includes(search)
+  );
+
+  renderPokemon(filteredPokemon);
+});

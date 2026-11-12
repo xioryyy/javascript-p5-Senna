@@ -1,21 +1,41 @@
-// API_KEY wordt geladen vanuit config.js (zie config.example.js voor instructies)
+const form = document.querySelector('#search-form');
+const input = document.querySelector('#city-input');
+const weatherInfo = document.querySelector('#weather-info');
 
-const showWeather = (data) => {
-  // Zet de weerinformatie van data om naar HTML in #weather-info
-  // Toon: stadsnaam, weer-icon, temperatuur, gevoelstemperatuur, luchtvochtigheid en windsnelheid
-  // Rond de temperaturen af met Math.round()
-  // Gebruik console.log(data) om de structuur te bekijken
-  // De icon-URL is: `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
-};
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
 
-const getWeather = (city) => {
-  // Doe een fetch naar de OpenWeather API met city en API_KEY
-  // De URL is: `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
-  // Gebruik console.log(data) om de structuur te bekijken
-  // Roep showWeather(data) aan met de response
-};
+  const city = input.value.trim();
+  if (!city) return;
 
-// Voeg hier een submit event listener toe aan #search-form
-// Gebruik e.preventDefault() zodat de pagina niet herlaadt
-// Lees de waarde uit #city-input en roep getWeather(city) aan
-// Maak de input daarna leeg
+  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`)
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.cod !== 200) {
+        weatherInfo.innerHTML = '<p>Stad niet gevonden.</p>';
+        return;
+      }
+
+      const icon = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+      const temp = Math.round(data.main.temp);
+      const voelt = Math.round(data.main.feels_like);
+      const lucht = data.main.humidity;
+      const wind = Math.round(data.wind.speed);
+
+      weatherInfo.innerHTML = `
+        <article>
+          <h2>${data.name}</h2>
+          <img src="${icon}" alt="weer">
+          <p>Temperatuur: ${temp}°C</p>
+          <p>Gevoelstemperatuur: ${voelt}°C</p>
+          <p>Luchtvochtigheid: ${lucht}%</p>
+          <p>Windsnelheid: ${wind} m/s</p>
+        </article>
+      `;
+    })
+    .catch(() => {
+      weatherInfo.innerHTML = '<p>Er ging iets mis.</p>';
+    });
+
+  input.value = '';
+});
