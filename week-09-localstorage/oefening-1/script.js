@@ -12,9 +12,9 @@ buttonOpslaan.addEventListener('click', () => {
 
 buttonOphalen.addEventListener('click', () => {
     let storedValue = localStorage.getItem('input value');
-    if (storedValue) {
+    if (storedValue !== null) {
         console.log('Opgehaalde waarde:', storedValue);
     } else {
-        
+        console.log('Er is nog niets opgeslagen.');
     }
 });
